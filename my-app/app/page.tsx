@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { CardDemo } from '@/components/Card'; 
 
 const page = () => {
   return (
     <div>
-      <h1>hi</h1>
+      <CardDemo />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
