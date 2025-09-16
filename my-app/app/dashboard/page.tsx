@@ -1,11 +1,42 @@
 "use client";
 
 import React from 'react';
-import { DollarSign, ShoppingBag, Users, BarChart } from 'lucide-react';
+import { DollarSign, ShoppingCart, Users, BarChart } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useTheme } from 'next-themes';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const App = () => {
+// Define the interface for the card props to fix the TypeScript error
+interface DashboardCardProps {
+  title: string;
+  value: string;
+  icon: any; // A more specific type could be used, but 'any' works for now
+  color: string;
+}
+
+// Card component for displaying key metrics
+const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, icon: Icon, color }) => (
+  <Card className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+    <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardTitle className="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-400">
+        {title}
+      </CardTitle>
+      <div className={`p-2 rounded-full text-white ${color} shadow-lg`}>
+        <Icon size={20} />
+      </div>
+    </CardHeader>
+    <CardContent>
+      <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-50">{value}</div>
+    </CardContent>
+  </Card>
+);
+
+const DashboardPage = () => {
   const { theme } = useTheme();
 
   // Mock data for the dashboard cards
@@ -19,7 +50,7 @@ const App = () => {
     {
       title: 'Total Sales',
       value: '$23,245.50',
-      icon: ShoppingBag,
+      icon: ShoppingCart,
       color: 'bg-red-500',
     },
     {
@@ -58,19 +89,6 @@ const App = () => {
   const chartTooltipBg = theme === 'dark' ? 'bg-gray-800' : 'bg-white';
   const chartTooltipBorder = theme === 'dark' ? 'border-gray-700' : 'border-gray-200';
   const chartTooltipText = theme === 'dark' ? 'text-gray-100' : 'text-gray-900';
-
-  // Card component for displaying key metrics
-  const DashboardCard = ({ title, value, icon: Icon, color }) => (
-    <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
-      <div className="flex items-center justify-between">
-        <div className="text-gray-500 dark:text-gray-400 text-sm sm:text-base font-medium">{title}</div>
-        <div className={`p-2 rounded-full text-white ${color} shadow-lg`}>
-          <Icon size={20} />
-        </div>
-      </div>
-      <div className="mt-2 sm:mt-4 text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50">{value}</div>
-    </div>
-  );
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -137,4 +155,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default DashboardPage;
