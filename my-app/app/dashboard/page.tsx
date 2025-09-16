@@ -3,8 +3,11 @@
 import React from 'react';
 import { DollarSign, ShoppingBag, Users, BarChart } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useTheme } from 'next-themes';
 
 const App = () => {
+  const { theme } = useTheme();
+
   // Mock data for the dashboard cards
   const cardData = [
     {
@@ -49,25 +52,31 @@ const App = () => {
     { name: 'Dec', revenue: 6000, sales: 8500 },
   ];
 
+  // Determine chart colors based on the current theme
+  const chartAxisColor = theme === 'dark' ? '#9ca3af' : '#6b7280';
+  const chartGridColor = theme === 'dark' ? '#4b5563' : '#e5e7eb';
+  const chartTooltipBg = theme === 'dark' ? 'bg-gray-800' : 'bg-white';
+  const chartTooltipBorder = theme === 'dark' ? 'border-gray-700' : 'border-gray-200';
+  const chartTooltipText = theme === 'dark' ? 'text-gray-100' : 'text-gray-900';
+
   // Card component for displaying key metrics
   const DashboardCard = ({ title, value, icon: Icon, color }) => (
-    <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
       <div className="flex items-center justify-between">
-        <div className="text-gray-500 font-medium">{title}</div>
-        <div className={`p-2 rounded-full text-white ${color}`}>
+        <div className="text-gray-500 dark:text-gray-400 text-sm sm:text-base font-medium">{title}</div>
+        <div className={`p-2 rounded-full text-white ${color} shadow-lg`}>
           <Icon size={20} />
         </div>
       </div>
-      <div className="mt-4 text-3xl font-bold text-gray-900">{value}</div>
+      <div className="mt-2 sm:mt-4 text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50">{value}</div>
     </div>
   );
 
-  // Custom tooltip component for the chart
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
-          <p className="font-bold text-gray-900 mb-1">{`Month: ${label}`}</p>
+        <div className={`${chartTooltipBg} ${chartTooltipBorder} p-4 rounded-lg shadow-xl border`}>
+          <p className={`font-bold ${chartTooltipText} mb-1`}>{`Month: ${label}`}</p>
           {payload.map((p, index) => (
             <p key={index} style={{ color: p.stroke }} className="text-sm">
               {`${p.name}: ${p.value}`}
@@ -80,28 +89,28 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 font-sans antialiased">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 sm:p-6 md:p-8 font-sans antialiased text-gray-900 dark:text-gray-50">
       {/* Dashboard Header */}
-      <header className="mb-10">
-        <h1 className="text-4xl font-extrabold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-lg text-gray-500">Overview of your key metrics</p>
+      <header className="mb-6 md:mb-10">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-50">Dashboard</h1>
+        <p className="mt-1 sm:mt-2 text-base sm:text-lg text-gray-500 dark:text-gray-400">Overview of your key metrics</p>
       </header>
 
       {/* Cards Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 md:mb-10">
         {cardData.map((card, index) => (
           <DashboardCard key={index} {...card} />
         ))}
       </section>
 
       {/* Chart Section */}
-      <section className="bg-white p-8 rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Revenue and Sales Trend</h2>
-        <div className="h-96 w-full">
+      <section className="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-2xl shadow-lg">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4 sm:mb-6">Revenue and Sales Trend</h2>
+        <div className="h-64 sm:h-80 md:h-96 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={chartData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
             >
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -113,9 +122,9 @@ const App = () => {
                   <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="name" stroke="#9ca3af" />
-              <YAxis stroke="#9ca3af" />
+              <CartesianGrid strokeDasharray="3 3" stroke={chartGridColor} />
+              <XAxis dataKey="name" stroke={chartAxisColor} />
+              <YAxis stroke={chartAxisColor} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
               <Line type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={3} dot={{ r: 6 }} activeDot={{ r: 8 }} />
