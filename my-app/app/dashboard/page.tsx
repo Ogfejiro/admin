@@ -22,8 +22,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
-import { NameType } from "recharts/types/component/DefaultTooltipContent";
 import { ValueType } from "recharts/types/component/DefaultTooltipContent";
+import { NameType } from "recharts/types/component/DefaultTooltipContent";
 
 // ---------------- Types ----------------
 
@@ -48,6 +48,15 @@ interface ChartData {
   name: string;
   revenue: number;
   sales: number;
+}
+
+// Extend TooltipProps to allow payload
+interface CustomTooltipProps extends TooltipProps<ValueType, NameType> {
+  payload?: {
+    name: string;
+    value: number | string;
+    stroke?: string;
+  }[];
 }
 
 // ---------------- Components ----------------
@@ -132,12 +141,8 @@ const DashboardPage = () => {
   const chartTooltipBorder = theme === "dark" ? "border-gray-700" : "border-gray-200";
   const chartTooltipText = theme === "dark" ? "text-gray-100" : "text-gray-900";
 
-  // ✅ Fixed CustomTooltip with typing
-  const CustomTooltip = ({
-    active,
-    payload,
-    label,
-  }: TooltipProps<ValueType, NameType>) => {
+  // ✅ Fixed CustomTooltip with safe typing
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div
