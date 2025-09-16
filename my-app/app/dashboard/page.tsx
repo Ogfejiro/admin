@@ -11,7 +11,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  TooltipProps // Keep this import
+  TooltipProps,
+  ValueType,
+  NameType,
 } from 'recharts';
 import { useTheme } from 'next-themes';
 import {
@@ -20,14 +22,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LucideIcon } from 'lucide-react'; 
-// Remove the duplicate import for TooltipProps here
+import { LucideIcon } from 'lucide-react';
 
 // Define the interface for the card props
 interface DashboardCardProps {
   title: string;
   value: string;
-  icon: LucideIcon; // Using the specific type for a Lucide icon
+  icon: LucideIcon;
   color: string;
 }
 
@@ -102,7 +103,12 @@ const DashboardPage = () => {
   const chartTooltipBorder = theme === 'dark' ? 'border-gray-700' : 'border-gray-200';
   const chartTooltipText = theme === 'dark' ? 'text-gray-100' : 'text-gray-900';
 
-  const CustomTooltip = ({ active, payload, label }: TooltipProps<any, any>) => {
+  // ✅ Fixed CustomTooltip with proper typing
+  const CustomTooltip = ({
+    active,
+    payload,
+    label,
+  }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
       return (
         <div className={`${chartTooltipBg} ${chartTooltipBorder} p-4 rounded-lg shadow-xl border`}>
