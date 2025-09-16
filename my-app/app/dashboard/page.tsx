@@ -1,8 +1,18 @@
 "use client";
 
 import React from 'react';
-import { DollarSign, ShoppingCart, Users, BarChart } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { DollarSign, ShoppingBag, Users, BarChart } from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  TooltipProps // Keep this import
+} from 'recharts';
 import { useTheme } from 'next-themes';
 import {
   Card,
@@ -10,13 +20,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LucideIcon } from 'lucide-react'; // Import LucideIcon
+import { LucideIcon } from 'lucide-react'; 
+// Remove the duplicate import for TooltipProps here
 
-// Define the interface for the card props to fix the TypeScript error
+// Define the interface for the card props
 interface DashboardCardProps {
   title: string;
   value: string;
-  icon: LucideIcon; // A more specific type could be used, but 'any' works for now
+  icon: LucideIcon; // Using the specific type for a Lucide icon
   color: string;
 }
 
@@ -51,7 +62,7 @@ const DashboardPage = () => {
     {
       title: 'Total Sales',
       value: '$23,245.50',
-      icon: ShoppingCart,
+      icon: ShoppingBag,
       color: 'bg-red-500',
     },
     {
@@ -91,7 +102,7 @@ const DashboardPage = () => {
   const chartTooltipBorder = theme === 'dark' ? 'border-gray-700' : 'border-gray-200';
   const chartTooltipText = theme === 'dark' ? 'text-gray-100' : 'text-gray-900';
 
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: TooltipProps<any, any>) => {
     if (active && payload && payload.length) {
       return (
         <div className={`${chartTooltipBg} ${chartTooltipBorder} p-4 rounded-lg shadow-xl border`}>
