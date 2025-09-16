@@ -50,13 +50,14 @@ interface ChartData {
   sales: number;
 }
 
-// Extend TooltipProps to allow payload
+// Extend TooltipProps to allow payload + label
 interface CustomTooltipProps extends TooltipProps<ValueType, NameType> {
   payload?: {
     name: string;
     value: number | string;
     stroke?: string;
   }[];
+  label?: string; // ✅ explicitly add label so TS stops complaining
 }
 
 // ---------------- Components ----------------
@@ -138,8 +139,10 @@ const DashboardPage = () => {
   const chartAxisColor = theme === "dark" ? "#9ca3af" : "#6b7280";
   const chartGridColor = theme === "dark" ? "#4b5563" : "#e5e7eb";
   const chartTooltipBg = theme === "dark" ? "bg-gray-800" : "bg-white";
-  const chartTooltipBorder = theme === "dark" ? "border-gray-700" : "border-gray-200";
-  const chartTooltipText = theme === "dark" ? "text-gray-100" : "text-gray-900";
+  const chartTooltipBorder =
+    theme === "dark" ? "border-gray-700" : "border-gray-200";
+  const chartTooltipText =
+    theme === "dark" ? "text-gray-100" : "text-gray-900";
 
   // ✅ Fixed CustomTooltip with safe typing
   const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
