@@ -10,12 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { LucideIcon } from 'lucide-react'; // Import LucideIcon
 
 // Define the interface for the card props to fix the TypeScript error
 interface DashboardCardProps {
   title: string;
   value: string;
-  icon: any; // A more specific type could be used, but 'any' works for now
+  icon: LucideIcon; // A more specific type could be used, but 'any' works for now
   color: string;
 }
 
