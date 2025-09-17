@@ -95,7 +95,8 @@ const ReportPage: React.FC = () => {
         </div>
       </header>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-x-auto">
+      {/* Desktop Table */}
+      <div className="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
@@ -117,39 +118,4 @@ const ReportPage: React.FC = () => {
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {filteredData.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  {row.month}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  {row.name}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  {row.state}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  {row.time}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-400">
-                  ${row.sales.toLocaleString()}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-green-600 dark:text-green-400">
-                  ${row.success.toLocaleString()}
-                </td>
-                <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-yellow-600 dark:text-yellow-400">
-                  ${row.pending.toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {filteredData.length === 0 && (
-          <div className="text-center py-8 text-gray-500 dark:text-gray-400">No results found.</div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default ReportPage;
+              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gra
