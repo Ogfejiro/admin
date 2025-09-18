@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 // Define type for each report row
 type ReportRow = {
@@ -33,7 +35,7 @@ const reportData: ReportRow[] = [
   { id: 12, month: "Dec", sales: 8000, success: 8500, pending: 1500, name: "Ngozi Dike", state: "Abuja", time: "10:45 AM" },
 ];
 
-// Only allow sorting on certain keys
+// Allowed sort keys
 type SortKey = keyof Pick<ReportRow, "month" | "name" | "state" | "time" | "sales" | "success" | "pending">;
 type SortDirection = "asc" | "desc";
 
@@ -43,6 +45,11 @@ const ReportPage: React.FC = () => {
   const [sortKey, setSortKey] = useState<SortKey>("month");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [filterText, setFilterText] = useState<string>("");
+
+  // Initialize AOS animations once
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  }, []);
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -75,7 +82,11 @@ const ReportPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 p-4 sm:p-8 font-sans antialiased">
-      <header className="mb-6 md:mb-10 flex flex-col md:flex-row md:items-center md:justify-between">
+      {/* Header */}
+      <header
+        className="mb-6 md:mb-10 flex flex-col md:flex-row md:items-center md:justify-between"
+        data-aos="fade-down"
+      >
         <div className="mb-4 md:mb-0">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-50">
             Tabular Report
@@ -96,7 +107,10 @@ const ReportPage: React.FC = () => {
       </header>
 
       {/* Desktop Table */}
-      <div className="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-x-auto">
+      <div
+        className="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-x-auto"
+        data-aos="fade-up"
+      >
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
@@ -118,7 +132,11 @@ const ReportPage: React.FC = () => {
           </thead>
           <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {filteredData.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+              <tr
+                key={row.id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                data-aos="fade-up"
+              >
                 <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">{row.month}</td>
                 <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">{row.name}</td>
                 <td className="px-3 py-2 sm:px-6 sm:py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">{row.state}</td>
@@ -138,6 +156,7 @@ const ReportPage: React.FC = () => {
           <div
             key={row.id}
             className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-200 dark:border-gray-700"
+            data-aos="fade-up"
           >
             <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
               <span>{row.month}</span>

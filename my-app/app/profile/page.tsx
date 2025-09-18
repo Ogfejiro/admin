@@ -13,6 +13,8 @@ import {
   X,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 // Define user shape
 interface UserType {
@@ -133,6 +135,10 @@ const ProfilePage: React.FC = () => {
       onClose();
     };
 
+    useEffect(() => {
+        AOS.init({ duration: 1200 });
+      }, []);
+    
     return (
       <div className="fixed inset-0 bg-gray-950/50 dark:bg-black/70 flex items-center justify-center p-4 z-50 transition-opacity duration-300">
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 rounded-3xl shadow-xl w-full max-w-lg p-8">
